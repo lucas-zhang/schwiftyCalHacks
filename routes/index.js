@@ -4,8 +4,9 @@ var MongoClient = require('mongodb').MongoClient;
 var ObjectId = require('mongodb').ObjectID;
 var url = 'mongo://localhost:27017/main';
 /* GET home page. */
+
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index.html', { title: 'Express' });
   
 });
 
