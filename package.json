@@ -13,6 +13,7 @@
     "jade": "~1.11.0",
     "morgan": "~1.6.1",
     "serve-favicon": "~2.3.0",
-    "mongodb": "~1.2.5"
+    "mongodb": "~1.2.5",
+    "swig" : "1.4.2"
   }
 }
