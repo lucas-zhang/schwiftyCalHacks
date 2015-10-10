@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var landing = require('./routes/landing')
 
 var app = express();
 var swig = require('swig')
@@ -33,6 +34,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
+app.use('/landing', landing);
 app.use('/users', users);
 
 // catch 404 and forward to error handler
