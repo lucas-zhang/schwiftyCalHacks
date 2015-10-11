@@ -23,7 +23,7 @@ $('document').ready(function(){
           var preview_url = data.preview_urls[i];
           audioObjects.push(new Audio(preview_url));
 
-        $("#search-results").append('<div class="row"><div class="col-md-3"><img class="album-image"></div><div class="col-md-6"><p class="song-title">' + title +'</p><p class="artist-name">' + artist_name +'</p></div><div class = "col-md-3"><span class="glyphicon glyphicon-play pbutton" data-id="' + i.toString() + '"> </span> <button class="song-select" data-id=" ' + artist_id + ' ">Select Song</button> </div></div>');
+        $("#search-results").append('<div class="row"><div class="col-md-3"><img class="album-image"></div><div class="col-md-6"><p class="song-title">' + title +'</p><p class="artist-name">' + artist_name +'</p></div><div class = "col-md-3"><span class="glyphicon glyphicon-play pbutton" data-id="' + i.toString() + '"> </span> <button class="song-select" artist-id="' + artist_id + '" artist-name="'+ artist_name +'">Select Song</button> </div></div>');
         }
       }
     });
@@ -36,12 +36,12 @@ $('document').ready(function(){
       if ($(this).hasClass("glyphicon-play")) {
         $(this).removeClass("glyphicon-play");
         $(this).addClass("glyphicon-pause");
-        audioObjects[index].pause();
+        audioObjects[index].play();
 
       } else {
           $(this).removeClass("glyphicon-pause");
           $(this).addClass("glyphicon-play");
-          audioObjects[index].play();
+          audioObjects[index].pause();
       }
     });
 
@@ -50,14 +50,16 @@ $('document').ready(function(){
       console.log("song select called");
       $("#search-results").empty();
 
-      var artist_id = $(this).attr('data-id');
-      var artist_name = $(this).parents('p.artist_name').text();
-
+      var artist_id = $(this).attr('artist-id');
+      var artist_name = $(this).attr('artist-name');
+      console.log(artist_name);
+      console.log(artist_id);
       $.ajax({
         type: "GET",
         url: "/generateChoices",
         data: {'artist_id' : artist_id, 'artist_name' : artist_name},
         success: function(data){
+          console.log(data);
           var i;
           var index;
           var usedInts = new Set();
@@ -65,6 +67,8 @@ $('document').ready(function(){
           var count = 0;
 
           while(true){
+            break;
+            console.log("in while loop");
             if (usedInts.length == 5){
               break;
             }
@@ -72,7 +76,7 @@ $('document').ready(function(){
             if (!usedInts.has(i)){
               count++;
               usedInts.add(i);
-              $("#quiz").append('<p id=" ' + artist_ids[i] +' "> ' + choices[count] + '   ' + artist_names[i] + '</p>');
+              $("#quiz").append('<p id=" ' + data.artist_ids[i] +' "> ' + choices[count] + '   ' + data.artist_names[i] + '</p>');
             }
           } /*end while */
         

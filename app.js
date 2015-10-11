@@ -57,14 +57,11 @@ var generateRandomString = function(length) {
 app.get('/chatroom', function(req, res) {
   res.sendFile(path.join(__dirname,'search.html'));
 });*/
-app.get('/generate_choices', function(req, res) {
-  console.log("generate called");
+app.get('/generateChoices', function(req, res) {
+  console.log("generate calledasfasdf");
   var spotifyApiSearch = new SpotifyWebApi();
   var artist_id = req.query.artist_id;
   var artist_name = req.query.artist_name;
-  
-  console.log(artist_id);
-
   var artist_ids = [];
   artist_ids.push(artist_id);
 
@@ -72,15 +69,22 @@ app.get('/generate_choices', function(req, res) {
   artist_names.push(artist_name)
 
 
-
-
-  spotifyApiSearch.getArtistRelatedArtists(artist_id) // gets related artists
+  var str = artist_id.toString().trim();
+  console.log('String of artist_id variable is:' + str);
+  console.log('Typeof artist_id variable is:' + typeof str);
+  console.log('Hardcoded artist_id is:' + "4obzFoKoKRHIphyHzJ35G3");
+  console.log('Typeof hardcoded artist_id is:' + typeof "4obzFoKoKRHIphyHzJ35G3");
+  console.log('== test:' + str === "4obzFoKoKRHIphyHzJ35G3");
+  console.log('===test:' + str === "4obzFoKoKRHIphyHzJ35G3");
+  spotifyApiSearch.getArtistRelatedArtists(str) // gets related artists
     .then(function(data) {
+        console.log('then callled');
         console.log(data.body);
         for(var i = 0; i < data.body.artists.length; i++){
           artist_ids.push(data.body.artists[i].id);
           artist_names.push(data.body.artists[i].name);
         } 
+
         res.json({
           artist_ids: artist_ids,
           artist_names: artist_names,
@@ -89,6 +93,7 @@ app.get('/generate_choices', function(req, res) {
     }, function(err) {
       done(err);
     });
+  console.log('generate done');
 });
 app.post('/search', function(req,res) {
     console.log("post entered");
