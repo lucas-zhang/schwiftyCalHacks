@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../stylesheets/chatroom.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script type='text/javascript' src="../js/chatroom.js"></script>
+
+  </head>
+  <body>
+       <div class='row'>
+
+        <div class='col-md-2' id='user-sidebar'>
+          <h4> Users </h4>
+          <p> Dynamically list users in room. </p>
+          <ul id="users" style = "color: green">
+
+          </ul>
+        </div>
+        <div class='col-md-7' id='game'>
+          <h4> Game </h4>
+            <div class="input-group">
+              <input id="song-text" type="text" class="form-control" placeholder="Choose a song...">
+              <span class="input-group-btn">
+                <button class="btn btn-default" id="search_button" type="button">Search</button>
+              </span>
+            </div><!-- /input-group -->
+        <br>
+        <br>
+        
+        <div id = "search-results">
+        </div>
+        
+        <br>
+        <br>
+
+        <span>               
+          <button class="btn btn-default" id='start_button' type="button">Start Game</button>
+        </span>
+            <div class="row">
+              <div class="col-md-2 col-md-offset-5" id='quiz'>
+                <p> A. Option 1 </p>
+                <p> B. Option 2 </p>
+                <p> C. Option 3 </p>
+                <p> D. Option 4 </p>
+                <p> E. Option 5 </p>
+              </div>
+            </div>
+          <!--
+          {% for guess in guesses %}
+            <p> {{guess}} </p>
+          {% endfor %}
+          -->
+        </div>
+        <div class='col-md-3' id='chatbar'>
+          <h4> Chatbar </h4>
+          <p> Dynamically list chat socket.io </p>
+          <ul id="messages"></ul>
+
+            <form action="">
+              <input id="m" autocomplete="off" /><button>Send</button>
+             </form>
+
+        </div>
+
+      </div>
+
+
+  <script>
+    $('form').submit(function(){
+      socket.emit('chat message', $('#m').val());
+      $('#m').val('');
+      return false;
+    });
+    socket.on('user change', function(users) {
+      $("#users").empty();
+      for (i = 0; i < users.length; i++) {
+        $('#users').append($('<li>').text(users[i]));
+      }
+    });
+    socket.on('chat message', function(msg){
+      $('#messages').append($('<li>').text(msg));
+    });
+    var audioObject;
+      socket.on('music download', function(url) {
+        console.log('hi')
+        console.log(url)
+        console.log('hi')
+        audioObject = new Audio(url)
+        audioObject.play();
+      });
+  </script>
+
+  </body>
+</html>

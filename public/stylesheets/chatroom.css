@@ -1,0 +1,81 @@
+/* bootstrap overrides */
+
+html, body {
+    height: 100%;
+    background-color:#262626;
+}
+
+p, h4{
+    color: #fff;
+}
+
+.main, .row-fluid {
+    height: 100%;
+}
+
+.main:before, .main:after,
+.column:before, .column:after {
+    content: "";
+    display: table;
+}
+
+.main:after,
+.column:after {
+    clear: both;
+}
+
+.column {
+    height: 100%;
+    overflow: auto;
+    *zoom:1;
+}
+
+.column .padding {
+    padding: 20px;
+}
+
+.box {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top:0;
+}
+
+.span9.full {
+    width: 100%;
+}
+
+#user-sidebar, #game, #chatbar{
+    height: 100em;
+    border-left: thick double #82b919;
+}
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; background-color: #262626;}
+      p,h4 {color: #fff;}
+      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 20%; }
+      form input { border: 0; padding: 10px; width: 110%; margin-right: .5%; }
+      form button { width: 110%; background: #82FF8C; border: none; padding: 10px; }
+      #messages { list-style-type: none; margin: 0; padding-top: 5em; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #5C96AD; }
+      #messages li:nth-child(even) { background: #eee; }
+
+      #user-sidebar, #game, #chatbar{
+        height: 100em;
+        border-left: thick double #82b919;
+        padding-bottom: 10em;
+        overflow-y: scroll;
+      }
+      #quiz{
+        display: inline-block;
+        position: absolute;
+        right: 10em;
+        top: 40em;
+        width: 70%;
+        height: 30em;
+        background-color: #007EFF;
+        text-align: center;
+        padding-top: 7em;
+      }
