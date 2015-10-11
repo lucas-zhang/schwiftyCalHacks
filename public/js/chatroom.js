@@ -68,6 +68,8 @@ $('document').ready(function(){
           var count = 0;
 
           while(true){
+            break;
+            console.log("in while loop");
             if (usedInts.length == 5){
               break;
             }
@@ -75,7 +77,7 @@ $('document').ready(function(){
             if (!usedInts.has(i)){
               count++;
               usedInts.add(i);
-              $("#quiz").append('<p id=" ' + artist_ids[i] +' "> ' + choices[count] + '   ' + artist_names[i] + '</p>');
+              $("#quiz").append('<p id=" ' + data.artist_ids[i] +' "> ' + choices[count] + '   ' + data.artist_names[i] + '</p>');
             }
           } /*end while */
         
