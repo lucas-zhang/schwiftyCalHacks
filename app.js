@@ -19,7 +19,7 @@ var session = require('client-sessions');
 var SpotifyWebApi = require('spotify-web-api-node');
 var client_id = '5ff7211b2d8c40a6b76b1238e117b3db'; // Your client id
 var client_secret = '3dc23c62c02e4c309c2fef0b3980346e'; // Your client secret
-var redirect_uri = 'http://cf4e1af0.ngrok.io/callback'; // Your redirect uri
+var redirect_uri = 'http://localhost:3000/callback'; // Your redirect uri
 
 var app = express();
 var io = require('socket.io').listen(app.listen(3000));
