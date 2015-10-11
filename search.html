@@ -1,0 +1,20 @@
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="js/search.js"></script>
+</head>
+    <div class="container">
+        <h1>Search for a song, artist or album</h1>
+        <form id="search-form">
+            <input type="text" id="song" value="" class="form-control" placeholder="Type a Song Name"/>
+            <!--<input type="text" id="artist" value="" class="form-control" placeholder="Type an Artist Name"/> -->
+            <div id="search" style="padding: 10px; background-color:blue; width: 50px; cursor: pointer" class="btn btn-primary">Search</div>
+        </form>
+        <div class = "result" style = "display:none">
+            <div class = "title"></div>
+            <div class = "artist"></div>
+            <img class = "album-image">
+            <div class = "pbutton" style = "background-color: yellow; width: 50px; padding: 10px; cursor: pointer">Play</div>
+        </div>
+    </div>
+</html>
