@@ -29,56 +29,109 @@ $('document').ready(function(){
     });
   });
     
-    $(document).on('click', '.pbutton',function(){
-      console.log('pbutton clicked');
-      var index = $(this).attr('data-id');
-      console.log(index);
-      if ($(this).hasClass("glyphicon-play")) {
-        $(this).removeClass("glyphicon-play");
-        $(this).addClass("glyphicon-pause");
-        audioObjects[index].pause();
+  $(document).on('click', '.pbutton',function(){
+    console.log('pbutton clicked');
+    var index = $(this).attr('data-id');
+    console.log(index);
+    if ($(this).hasClass("glyphicon-play")) {
+      $(this).removeClass("glyphicon-play");
+      $(this).addClass("glyphicon-pause");
+      audioObjects[index].pause();
 
-      } else {
-          $(this).removeClass("glyphicon-pause");
-          $(this).addClass("glyphicon-play");
-          audioObjects[index].play();
-      }
-    });
-
-
-    $(document).on('click', '.song-select',function(){
-      console.log("song select called");
-      $("#search-results").empty();
-
-      var artist_id = $(this).attr('data-id');
-      var artist_name = $(this).parents('p.artist_name').text();
-
-      $.ajax({
-        type: "GET",
-        url: "/generateChoices",
-        data: {'artist_id' : artist_id, 'artist_name' : artist_name},
-        success: function(data){
-          var i;
-          var index;
-          var usedInts = new Set();
-          var choices = ['A.', 'B.', 'C.', 'D.', 'E.'];
-          var count = 0;
-
-          while(true){
-            if (usedInts.length == 5){
-              break;
-            }
-            i = Math.floor((Math.random() * 5));
-            if (!usedInts.has(i)){
-              count++;
-              usedInts.add(i);
-              $("#quiz").append('<p id=" ' + artist_ids[i] +' "> ' + choices[count] + '   ' + artist_names[i] + '</p>');
-            }
-          } /*end while */
-        
-        } /*End Success*/
-    
-      });
-
-    });
+    } else {
+        $(this).removeClass("glyphicon-pause");
+        $(this).addClass("glyphicon-play");
+        audioObjects[index].play();
+    }
   });
+
+
+  $(document).on('click', '.song-select',function(){
+    console.log("song select called");
+    $("#search-results").empty();
+
+    var artist_id = $(this).attr('data-id');
+    var artist_name = $(this).parents('p.artist_name').text();
+
+    $.ajax({
+      type: "GET",
+      url: "/generateChoices",
+      data: {'artist_id' : artist_id, 'artist_name' : artist_name},
+      success: function(data){
+        var i;
+        var index;
+        var usedInts = new Set();
+        var choices = ['A.', 'B.', 'C.', 'D.', 'E.'];
+        var count = 0;
+
+        while(true){
+          if (usedInts.length == 5){
+            break;
+          }
+          i = Math.floor((Math.random() * 5));
+          if (!usedInts.has(i)){
+            count++;
+            usedInts.add(i);
+            $("#quiz").append('<p id=" ' + artist_ids[i] +' "> ' + choices[count] + '   ' + artist_names[i] + '</p>');
+          }
+        } /*end while */
+      
+      } /*End Success*/
+  
+    });
+
+  });
+
+
+
+  var count=30;
+
+  var counter=setInterval(timer, 1000); //1000 will  run it every 1 second
+
+  function timer() {
+
+    count=count-1;
+    if (count <= 0)
+    {
+       clearInterval(counter);
+       var ps = $('#quiz').find('p button').addClass('disabled');
+       return;
+    }
+
+    document.getElementById("timer").innerHTML=count + " secs"; // watch for spelling
+  }
+
+  /*
+   * SOCKET STUFF
+   */
+
+  var socket = io();
+  $('form').submit(function(){
+    socket.emit('chat message', $('#m').val());
+    $('#m').val('');
+    return false;
+  });
+  socket.on('chat message', function(msg){
+    $('#messages').append($('<li>').text(msg));
+  });
+
+  var userChoice = -1;
+  socket.on('new game', function(msg) {
+    userChoice = -1;
+  });
+
+  socket.on('username turn', function(msg) {
+
+  });
+
+  function send(choice) {
+    if (userChoice > 0) return;
+    //alert(choice);
+    //socket.emit('choice', choice);
+    userChoice = choice; 
+    var ps = $('#quiz').find('p button');
+    ps.prop('disabled', true);
+    ps[choice - 1].className = 'btn btn-primary disabled';
+  }
+
+});

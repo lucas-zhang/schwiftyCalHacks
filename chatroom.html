@@ -4,9 +4,9 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="../stylesheets/chatroom.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script type='text/javascript' src="../js/chatroom.js"></script>
+    <script type='text/javascript' src="../js/jquery.pietimer.min.js"></script>
 
   </head>
   <body>
@@ -39,15 +39,18 @@
         <span>               
           <button class="btn btn-default" id='start_button' type="button">Start Game</button>
         </span>
-            <div class="row">
-              <div class="col-md-2 col-md-offset-5" id='quiz'>
-                <p> A. Option 1 </p>
-                <p> B. Option 2 </p>
-                <p> C. Option 3 </p>
-                <p> D. Option 4 </p>
-                <p> E. Option 5 </p>
-              </div>
-            </div>
+
+        <span id="timer" style="color: #fff"></span>
+
+        <div class="row">
+          <div class="col-md-2 col-md-offset-5" id='quiz'>
+            <p> <button type="button" class="btn btn-primary disabled" onclick="send(1);" disabled=""> A. Option 1 </button> </p>
+            <p> <button type="button" class="btn btn-default disabled" onclick="send(2);" disabled=""> B. Option 2 </button> </p>
+            <p> <button type="button" class="btn btn-default disabled" onclick="send(3);" disabled=""> C. Option 3 </button> </p>
+            <p> <button type="button" class="btn btn-default disabled" onclick="send(4);" disabled=""> D. Option 4 </button> </p>
+            <p> <button type="button" class="btn btn-default disabled" onclick="send(5);" disabled=""> E. Option 5 </button> </p>
+          </div>
+        </div>
           <!--
           {% for guess in guesses %}
             <p> {{guess}} </p>
@@ -68,23 +71,6 @@
       </div>
 
   <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-  <script>
-    var socket = io();
-    $('form').submit(function(){
-      socket.emit('chat message', $('#m').val());
-      $('#m').val('');
-      return false;
-    });
-    socket.on('user change', function(users) {
-      $("#users").empty();
-      for (i = 0; i < users.length; i++) {
-        $('#users').append($('<li>').text(users[i]));
-      }
-    });
-    socket.on('chat message', function(msg){
-      $('#messages').append($('<li>').text(msg));
-    });
-  </script>
 
   </body>
 </html>
