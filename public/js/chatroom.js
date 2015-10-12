@@ -1,3 +1,5 @@
+var socket = io();
+
 $('document').ready(function(){
   console.log("chatroom.js started");
   var audioObjects;
@@ -22,8 +24,8 @@ $('document').ready(function(){
           var image_url = data.image_urls[i];
           var preview_url = data.preview_urls[i];
           audioObjects.push(new Audio(preview_url));
-
-        $("#search-results").append('<div class="row"><div class="col-md-3"><img class="album-image"></div><div class="col-md-6"><p class="song-title">' + title +'</p><p class="artist-name">' + artist_name +'</p></div><div class = "col-md-3"><span class="glyphicon glyphicon-play pbutton" data-id="' + i.toString() + '"> </span> <button class="song-select" data-id=" ' + artist_id + ' ">Select Song</button> </div></div>');
+          console.log("preview url is: " + preview_url);
+        $("#search-results").append('<div class="row"><div class="col-md-3"><img class="album-image"></div><div class="col-md-6"><p class="song-title">' + title +'</p><p class="artist-name">' + artist_name +'</p></div><div class = "col-md-3"><span class="glyphicon glyphicon-play pbutton" data-id="' + i.toString() + '"> </span> <button class="song-select" preview-url="' + preview_url + '" data-id=" ' + artist_id + ' ">Select Song</button> </div></div>');
         }
       }
     });
@@ -51,8 +53,9 @@ $('document').ready(function(){
       $("#search-results").empty();
 
       var artist_id = $(this).attr('data-id');
+      var preview_url = $(this).attr('preview-url');
       var artist_name = $(this).parents('p.artist_name').text();
-
+      socket.emit('music upload', preview_url);
       $.ajax({
         type: "GET",
         url: "/generateChoices",
@@ -65,6 +68,8 @@ $('document').ready(function(){
           var count = 0;
 
           while(true){
+            break;
+            console.log("in while loop");
             if (usedInts.length == 5){
               break;
             }
@@ -72,7 +77,7 @@ $('document').ready(function(){
             if (!usedInts.has(i)){
               count++;
               usedInts.add(i);
-              $("#quiz").append('<p id=" ' + artist_ids[i] +' "> ' + choices[count] + '   ' + artist_names[i] + '</p>');
+              $("#quiz").append('<p id=" ' + data.artist_ids[i] +' "> ' + choices[count] + '   ' + data.artist_names[i] + '</p>');
             }
           } /*end while */
         

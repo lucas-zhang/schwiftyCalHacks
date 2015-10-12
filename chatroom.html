@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="../stylesheets/chatroom.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script type='text/javascript' src="../js/chatroom.js"></script>
 
@@ -66,7 +67,6 @@
         </div>
 
       </div>
-
   <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
   <script>
     var socket = io();
@@ -84,6 +84,21 @@
     socket.on('chat message', function(msg){
       $('#messages').append($('<li>').text(msg));
     });
+    var audioObject;
+      socket.on('music download', function(url, dateObject) {
+        console.log('hi')
+        console.log(url)
+        console.log('hi')
+        console.log('wtf')
+        audioObject = new Audio(url)
+        var now = (new Date()).getTime();
+        while(true){
+          if (now == dateObject.getTime()){
+            audioObject.play();
+          }    
+        }
+      });
+
   </script>
 
   </body>
